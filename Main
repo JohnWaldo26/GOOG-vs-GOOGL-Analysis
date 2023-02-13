@@ -1,0 +1,63 @@
+import datetime as dt
+import pandas as pd
+import statistics
+import matplotlib.pyplot as plt
+from pandas_datareader import data as pdr
+
+end = dt.datetime.now()
+start = dt.datetime(2016, 1, 1)
+start, end
+range=start,end
+stockList = ['GOOG','GOOGL']
+stocks = [i for i in stockList]
+stocks
+
+df = pdr.get_data_yahoo(stocks, start, end)
+
+data=pd.DataFrame(df)
+data = data.drop(index = data.index[0])
+
+list=[]
+for row in data.iterrows():
+  GOOG = row[1][0]
+  GOOGL = row[1][1]
+  variance = pd.Series(GOOG).div(pd.Series(GOOGL)) 
+  variance2= GOOG/GOOGL
+  list.append(variance2)
+  data["Variance"]=variance
+  varianceframe=data["Variance"]
+
+print(list)
+print(statistics.median(list))
+
+plt.plot(list)
+plt.show()
+
+df.head()
+
+df.index, df.columns
+
+Close = df.Close
+
+Close.head()
+
+
+
+Close[Close.index > end -dt.timedelta(days=100)].describe(percentiles=[0.1, 0.5, 0.9])
+
+Close.plot(figsize=(12, 8))
+
+   
+varianceframe.head()
+
+varianceframe.index
+
+
+varianceframe[varianceframe.index > end -dt.timedelta(days=100)].describe(percentiles=[0.1, 0.5, 0.9])
+
+varianceframe.plot(figsize=(12, 8))
+
+
+
+
+
